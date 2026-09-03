@@ -1,0 +1,35 @@
+name: CI - Build Verification
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build backend image
+        run: docker build -t ecom-backend ./backend
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build frontend image
+        run: docker build -t ecom-frontend ./frontend
+
+  build-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build admin image
+        run: docker build -t ecom-admin ./admin
