@@ -1,0 +1,27 @@
+name: ecom-app
+services:
+  ecom-backend:
+    build: 
+     context: ./backend
+    ports:
+      - "4005:4005"
+    container_name: ecom-backend
+    env_file:
+      - ./backend/.env
+
+  ecom-admin:
+    build: 
+     context: ./admin
+    ports:
+      - "5174:80"
+    container_name: ecom-admin
+    
+  ecom-frontend:
+    build: 
+     context: ./frontend
+    ports:
+      - "3000:80"
+    container_name: ecom-frontend
+
+
+

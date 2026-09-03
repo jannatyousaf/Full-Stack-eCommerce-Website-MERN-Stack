@@ -4,7 +4,7 @@
   "description": "Welcome to the eCommerce website project built with the MERN stack (MongoDB, Express.js, React, Node.js). This application allows users to browse products, manage their shopping cart, and place orders. It also includes an seperate admin panel for managing products and viewing orders.",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm start --prefix frontend\" \"npm run dev --prefix admin\" \"node backend/index.js\"",
+    "dev": "concurrently \"npm start --prefix frontend\" \"npm run dev --prefix admin\" \"npm start --prefix backend\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
