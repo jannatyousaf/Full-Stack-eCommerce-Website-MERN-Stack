@@ -17,7 +17,7 @@ const LoginSignup = () => {
   const login = async () => {
     console.log("Login Function Executed", formData);
     let responseData;
-    await fetch('http://localhost:4005/login', {
+    await fetch('/login', {
       method: 'POST',
       headers: {
         Accept: 'application/form-data',
@@ -38,7 +38,7 @@ const LoginSignup = () => {
   const signup = async () => {
     console.log("Siggup Function Executed", formData);
     let responseData;
-    await fetch('http://localhost:4005/signup', {
+    await fetch('/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/form-data',

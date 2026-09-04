@@ -1,3 +1,7 @@
 
 .env
 /node_modules
+*.pem
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup

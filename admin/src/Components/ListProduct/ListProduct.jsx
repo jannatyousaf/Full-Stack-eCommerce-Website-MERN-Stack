@@ -7,7 +7,7 @@ const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
 
   const fetchInfo = async () => {
-    await fetch('http://localhost:4005/allproducts').then((res) => res.json()).then((data) => setAllProducts(data));
+    await fetch('/allproducts').then((res) => res.json()).then((data) => setAllProducts(data));
   }
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const ListProduct = () => {
   }, []);
 
   const remove_product = async (id) => {
-    await fetch('http://localhost:4005/removeproduct', {
+    await fetch('/removeproduct', {
       method: 'POSt',
       headers: {
         Accept: 'application/json',
