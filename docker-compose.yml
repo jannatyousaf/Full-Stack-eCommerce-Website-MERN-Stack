@@ -8,6 +8,9 @@ services:
     container_name: ecom-backend
     env_file:
       - ./backend/.env
+    volumes:
+      - ./backend/upload/images:/app/upload/images
+
 
   ecom-admin:
     build: 
