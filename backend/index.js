@@ -124,7 +124,18 @@ app.get("/allproducts", async (req, res) => {
   console.log("All Products Fetched");
   res.send(products);
 });
-
+app.get("/health", async (req, res) => {
+  try {
+    const dbState = mongoose.connection.readyState;
+    if (dbState === 1) {
+      res.status(200).json({ status: "ok", database: "connected" });
+    } else {
+      res.status(503).json({ status: "error", database: "disconnected" });
+    }
+  } catch (error) {
+    res.status(503).json({ status: "error", message: error.message });
+  }
+});
 // Schema creating for User 
 const Users = mongoose.model("Users", {
   name: {

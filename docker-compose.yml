@@ -10,7 +10,13 @@ services:
       - ./backend/.env
     volumes:
       - ./backend/upload/images:/app/upload/images
-
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4005/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   ecom-admin:
     build: 
@@ -18,13 +24,15 @@ services:
     ports:
       - "5174:80"
     container_name: ecom-admin
-    
+    restart: always
+
   ecom-frontend:
     build: 
      context: ./frontend
     ports:
       - "3000:80"
     container_name: ecom-frontend
-
+    restart: always
+    
 
 
