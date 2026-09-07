@@ -50,3 +50,5 @@ jobs:
             git pull origin main
             docker compose down
             docker compose up -d --build
+            sleep 15
+            curl -f http://localhost:4005/health || exit 1
