@@ -47,8 +47,19 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd Full-Stack-eCommerce-Website-MERN-Stack
+            PREVIOUS_COMMIT=$(git rev-parse HEAD)
             git pull origin main
             docker compose down
             docker compose up -d --build
             sleep 15
-            curl -f http://localhost:4005/health || exit 1
+            if curl -f http://localhost:4005/health; then
+              echo "HEALTH CHECK PASSED Deployment healthy — success"
+            else
+              echo "HEALTH CHECK FAILED — rolling back to $PREVIOUS_COMMIT"
+              git checkout $PREVIOUS_COMMIT
+              docker compose down
+              docker compose up -d --build
+              sleep 15
+              curl -f http://localhost:4005/health || echo "Rollback health check also failed!"
+              exit 1
+            fi
