@@ -125,20 +125,20 @@ app.get("/allproducts", async (req, res) => {
   res.send(products);
 });
 app.get("/health", async (req, res) => {
-  // try {
-  //   const dbState = mongoose.connection.readyState;
-  //   if (dbState === 1) {
-  //     console.log("HEALTH CHECK: Application OK | Database: Connected");
-  //     res.status(200).json({ status: "ok", database: "connected" });
-  //   } else {
-  //     console.log("HEALTH CHECK: Database Disconnected");
-  //     res.status(503).json({ status: "error", database: "disconnected" });
-  //   }
-  // } catch (error) {
-  //   console.log("HEALTH CHECK FAILED: Error-", error.message);
-  //   res.status(503).json({ status: "error", message: error.message });
-  // }
-  res.status(503).json({ status: "error", message: error.message });
+  try {
+    const dbState = mongoose.connection.readyState;
+    if (dbState === 1) {
+      console.log("HEALTH CHECK: Application OK | Database: Connected");
+      res.status(200).json({ status: "ok", database: "connected" });
+    } else {
+      console.log("HEALTH CHECK: Database Disconnected");
+      res.status(503).json({ status: "error", database: "disconnected" });
+    }
+  } catch (error) {
+    console.log("HEALTH CHECK FAILED: Error-", error.message);
+    res.status(503).json({ status: "error", message: error.message });
+  }
+
 });
 // Schema creating for User 
 const Users = mongoose.model("Users", {

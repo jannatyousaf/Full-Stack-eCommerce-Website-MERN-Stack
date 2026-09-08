@@ -3,8 +3,8 @@ services:
   ecom-backend:
     build: 
      context: ./backend
-    ports:
-      - "4005:4005"
+    expose:
+    - "4005"
     container_name: ecom-backend
     env_file:
       - ./backend/.env
