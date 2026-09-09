@@ -63,3 +63,4 @@ jobs:
               docker exec ecom-backend wget -qO- http://localhost:4005/health || echo "Rollback health check also failed!"
               exit 1
             fi
+    
