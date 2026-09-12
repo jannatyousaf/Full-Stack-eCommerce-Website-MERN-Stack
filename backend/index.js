@@ -9,19 +9,58 @@ const multerS3 = require("multer-s3");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const client = require("prom-client");
+
 
 app.use(express.json());
 app.use(cors());
 
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = (Date.now() - start) / 1000;
+    httpRequestCounter.inc({
+      method: req.method,
+      route: req.path,
+      status: res.statusCode,
+    });
+    httpRequestDuration.observe(
+      { method: req.method, route: req.path, status: res.statusCode },
+      duration
+    );
+  });
+  next();
+});
+
+
 // Database Connection With MongoDB
 mongoose.connect(process.env.MONGO_URI);
 
+// Prometheus metrics setup
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics();
+
+const httpRequestCounter = new client.Counter({
+  name: "http_requests_total",
+  help: "Total number of HTTP requests",
+  labelNames: ["method", "route", "status"],
+});
+const httpRequestDuration = new client.Histogram({
+  name: "http_request_duration_seconds",
+  help: "Duration of HTTP requests in seconds",
+  labelNames: ["method", "route", "status"],
+  buckets: [0.05, 0.1, 0.3, 0.5, 1, 2, 5],
+});
 // API Creation
 
 app.get("/", (req, res) => {
   res.send("Express App is Running");
 });
 
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", client.register.contentType);
+  res.end(await client.register.metrics());
+});
 // Image Storage Engine S3
 const s3 = new S3Client({ region: process.env.AWS_REGION });
 

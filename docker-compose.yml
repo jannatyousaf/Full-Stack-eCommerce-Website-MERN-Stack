@@ -33,6 +33,24 @@ services:
       - "3000:80"
     container_name: ecom-frontend
     restart: always
-    
 
+  prometheus:
+    image: prom/prometheus
+    container_name: ecom-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
 
+  grafana:
+    image: grafana/grafana
+    container_name: ecom-grafana
+    ports:
+      - "3002:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+
+volumes:
+  grafana-data:
